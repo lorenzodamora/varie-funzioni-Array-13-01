@@ -11,6 +11,7 @@ namespace _13_01
         static void Main(string[] args)
         {
             Start();
+            //ciclo do while?
             Console.WriteLine("1) Aggiungere in coda un elemento all'array (decimali)");
             Console.WriteLine("2) restituisce la stringa dell' HTML di un array scritto da te");
             Console.WriteLine("3) Ricerca un numero all'interno di un'array, restituisce la posizione dell'elemento se lo trova, o scrive se non lo trova");
@@ -19,19 +20,17 @@ namespace _13_01
             Console.WriteLine("0) Termina programma ");
 
             Console.Write("\nSeleziona una delle precedenti funzioni scrivendo il numero qua: ");
-            int c; 
-            while (!int.TryParse(Console.ReadLine(), out c) || !(c >= 0 && c <= 5))
+            int fun; //scelta funzione
+            while (!int.TryParse(Console.ReadLine(), out fun) || !(fun >= 0 && fun <= 5))
             {//bad input
                 Console.SetCursorPosition(65, 9);
-                Console.Write("numero intero positivo tra 0 e 5");
+                Console.Write("numero intero tra 0 e 5");
                 Console.SetCursorPosition(65, 8);
                 Console.Write("                                ");
                 Console.SetCursorPosition(65, 8);
             }
-            Console.SetCursorPosition(65, 9);
-            Console.Write("                                ");
-
-            switch (c)
+          
+            switch (fun)
             {
                 case 0:
                     Console.Clear();
@@ -40,30 +39,28 @@ namespace _13_01
 
                 case 1:
                     Console.Clear();
-                    Array1();
+                    F1();
                     break;
 
                 case 2:
                     Console.Clear();
-                    Array2();
+                    F2();
                     break;
 
                 case 3:
                     Console.Clear();
-                    Array3();
+                    F3();
                     break;
 
                 case 4:
                     Console.Clear();
-                    Array4();
+                    F4();
                     break;
 
                 case 5:
-                    Array5();
+                    F5();
                     Console.Clear();
                     break;
-
-                default: break;
             }
         }
         //stampa pre progamma
@@ -85,25 +82,61 @@ namespace _13_01
             Console.Clear();
         }
         // Aggiungere in coda un elemento all'array (interi);
-        static void Array1()
+        static void F1()
         {
-            Console.WriteLine("1) Aggiungere in coda un elemento all'array (decimali)\n\nL'array adesso è vuoto!\nvuoi caricare un numero?");
+
+            Console.WriteLine("1) Aggiungere in coda un elemento all'array (decimali)\n\nL'array adesso è vuoto!" +
+                    "\nvuoi caricare un numero?(scrivi (y)es per caricare, qualsiasi altra cosa per no ");
             float[] array = new float[20];
-            Console.WriteLine("")
+            int cou = 0; //counter
+            do
+            {
+                Console.SetCursorPosition(0, 4);
+                if (Console.ReadKey().KeyChar == 'y')
+                {
+                    Array1(array,cou);
+                    cou++;
+                }
+                else
+                {
+                    Console.WriteLine("Fine programma");
+                    break;
+                }
+                Console.Clear();
+                //if max 20 inserimenti??
+                Console.WriteLine($"1) Aggiungere in coda un elemento all'array (decimali)\n\nL'array adesso ha:" +
+                "\nvuoi caricare un numero?(scrivi (y)es per caricare, qualsiasi altra cosa per no ");
+                Console.SetCursorPosition(19, 2);
+                for (int i = 0;i<cou;i++) Console.Write(array[i]+" | ");
+
+            } while (true);
         }
-        static void Array2()
+        static void Array1(float[] arr, int cou)
+        {
+            Console.CursorLeft = 0;
+            Console.Write("inserisci un numero: ");
+            while (!float.TryParse(Console.ReadLine(), out arr[cou]))
+            {//bad input
+                Console.SetCursorPosition(21, 5);
+                Console.Write("numero decimale");
+                Console.SetCursorPosition(21, 4);
+                Console.Write("                                ");
+                Console.SetCursorPosition(21, 4);
+            }
+        }
+        static void F2()
         {
 
         }
-        static void Array3()
+        static void F3()
         {
             //string
         }
-        static void Array4()
+        static void F4()
         {
 
         }
-        static void Array5()
+        static void F5()
         {
 
         }
