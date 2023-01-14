@@ -126,24 +126,21 @@ namespace _13_01
                 }
 
                 Console.Clear();
-                Console.Write($"1) Aggiungere in coda un elemento all'array (decimali)\n\nL'array adesso ha: ");
+                Console.Write("1) Aggiungere in coda un elemento all'array (decimali)\n\nL'array adesso ha: ");
                 for (int i = 0; i < cou; i++) Console.Write(array[i] + " | ");
                 if (cou == array.Length)
                 {
                     Console.WriteLine("\nL'array è pieno\nFine funzione...");
+                    Console.ReadKey();
                     break;
                 }
-                else
-                {
-                    Console.Write("\nvuoi caricare un numero?(scrivi (y)es per caricare, altro per no) ");
-                }
+                else Console.Write("\nvuoi caricare un numero?(scrivi (y)es per caricare, altro per no) ");
 
             } while (true);
         }
         static void Array1(float[] arr, int cou)
         {
-            Console.CursorLeft = 0;
-            Console.Write("inserisci un numero: ");
+            Console.Write("\binserisci un numero: ");
             while (!float.TryParse(Console.ReadLine(), out arr[cou]))
             {//bad input
                 Console.SetCursorPosition(21, 5);
@@ -153,15 +150,69 @@ namespace _13_01
                 Console.SetCursorPosition(21, 4);
             }
         }
+
         //Visualizzazione dell'array che restituisca la stringa in HTML;
         static void F2()
         {
-            
+            Console.WriteLine("Non l'ho fatto");
+            Task.Delay(300).Wait();
         }
+
+        //Ricerca un numero all'interno di un'array, restituisce la posizione dell'elemento se lo trova, o scrive se non lo trova
         static void F3()
         {
-            //string
+            Random R = new Random();
+            int[] arr1 = new int[50];
+            int p=0; //posizione
+            foreach (int i in arr1)
+            {
+                arr1[p] = R.Next(0, 101);
+                p++;
+                //Task.Delay(1).Wait();
+            }
+            do
+            {
+                Console.Clear();
+                Console.WriteLine("3) Ricerca un numero all'interno di un'array, da la posizione se lo trova, o scrive se non lo trova" +
+                "\n\nvuoi cercare un numero?(scrivi (y)es per cercare, altro per no) ");
+                Console.SetCursorPosition(0, 3);
+                if (Console.ReadKey().KeyChar == 'y') p = Array3(arr1);
+                else
+                {
+                    Console.Write("\b \n");
+                    Console.WriteLine("Fine funzione...");
+                    break;
+                }
+                if(p!=-1) Console.Write($"\nL'elemento {arr1[p]} si trova in posizione {p}\npremi per continuare");
+                else Console.Write("\nL'elemento non si trova nell'array\npremi per continuare");
+                Console.ReadKey();
+            } while (true);
+
         }
+        static int Array3(int[] arr1)
+        {
+            Console.Write("\bricerca un numero: ");
+            int num = -1; //numero provato
+            while (!int.TryParse(Console.ReadLine(), out num) || num < 0 || num > 100)
+            {//bad input
+                Task.Delay(300).Wait();
+                Console.SetCursorPosition(19, 4);
+                Console.Write("numero intero tra 0 e 100");
+                Console.SetCursorPosition(19, 3);
+                Console.Write(new string(' ', Console.WindowWidth));
+                Console.SetCursorPosition(19, 3);
+            }
+            Task.Delay(600).Wait();
+
+            int i = 0;//indice
+            foreach (var n in arr1)
+            {
+                if (n == num) return i;
+                i++;
+            }
+            return -1;
+        }
+
         static void F4()
         {
 
