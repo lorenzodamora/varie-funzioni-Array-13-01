@@ -25,7 +25,7 @@ namespace _13_01
 
                 Console.Write("\nSeleziona una delle precedenti funzioni scrivendo il numero qua: ");
                 int fun; //scelta funzione
-                char aut = 'f'; //un numero e autoinvia
+                //char aut = 'f'; //un numero e autoinvia
                 //aut = Console.ReadKey().KeyChar;
                 //Task.Delay(350).Wait();
                 //while (!int.TryParse(aut.ToString(), out fun) || !(fun >= 0 && fun <= 5))
@@ -41,6 +41,7 @@ namespace _13_01
                     //aut = Console.ReadKey().KeyChar;
                     //Task.Delay(350).Wait();
                 }
+                Task.Delay(350).Wait();
 
                 switch (fun)
                 {
