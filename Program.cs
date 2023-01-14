@@ -25,13 +25,21 @@ namespace _13_01
 
                 Console.Write("\nSeleziona una delle precedenti funzioni scrivendo il numero qua: ");
                 int fun; //scelta funzione
-                while (!int.TryParse(Console.ReadLine(), out fun) || !(fun >= 0 && fun <= 5))
+                char aut = 'f'; //un numero e autoinvia
+                //aut = Console.ReadKey().KeyChar;
+                //Task.Delay(350).Wait();
+                //while (!int.TryParse(aut.ToString(), out fun) || !(fun >= 0 && fun <= 5))
+
+                while (!int.TryParse(Console.ReadKey().KeyChar.ToString(), out fun) || !(fun >= 0 && fun <= 5))
                 {//bad input
+                    Task.Delay(350).Wait();
                     Console.SetCursorPosition(65, 9);
                     Console.Write("numero intero tra 0 e 5");
                     Console.SetCursorPosition(65, 8);
                     Console.Write("                                ");
                     Console.SetCursorPosition(65, 8);
+                    //aut = Console.ReadKey().KeyChar;
+                    //Task.Delay(350).Wait();
                 }
 
                 switch (fun)
@@ -146,7 +154,7 @@ namespace _13_01
         }
         static void F2()
         {
-
+            
         }
         static void F3()
         {
