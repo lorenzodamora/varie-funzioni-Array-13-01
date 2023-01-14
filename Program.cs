@@ -32,7 +32,7 @@ namespace _13_01
 
                 while (!int.TryParse(Console.ReadKey().KeyChar.ToString(), out fun) || !(fun >= 0 && fun <= 5))
                 {//bad input
-                    Task.Delay(350).Wait();
+                    Task.Delay(300).Wait();
                     Console.SetCursorPosition(65, 9);
                     Console.Write("numero intero tra 0 e 5");
                     Console.SetCursorPosition(65, 8);
@@ -41,7 +41,7 @@ namespace _13_01
                     //aut = Console.ReadKey().KeyChar;
                     //Task.Delay(350).Wait();
                 }
-                Task.Delay(350).Wait();
+                Task.Delay(500).Wait();
 
                 switch (fun)
                 {
