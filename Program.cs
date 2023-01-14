@@ -153,6 +153,7 @@ namespace _13_01
                 Console.SetCursorPosition(21, 4);
             }
         }
+        //Visualizzazione dell'array che restituisca la stringa in HTML;
         static void F2()
         {
             
