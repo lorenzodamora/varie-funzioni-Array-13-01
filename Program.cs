@@ -34,11 +34,11 @@ namespace _13_01
                 while (!int.TryParse(Console.ReadKey().KeyChar.ToString(), out fun) || !(fun >= 0 && fun <= 5))
                 {//bad input
                     Task.Delay(300).Wait();
-                    Console.SetCursorPosition(65, 9);
+                    Console.SetCursorPosition(65, 8);
                     Console.Write("numero intero tra 0 e 5");
-                    Console.SetCursorPosition(65, 8);
-                    Console.Write("                                ");
-                    Console.SetCursorPosition(65, 8);
+                    Console.SetCursorPosition(65, 7);
+                    Console.Write(" ");
+                    Console.SetCursorPosition(65, 7);
                     //aut = Console.ReadKey().KeyChar;
                     //Task.Delay(350).Wait();
                 }
@@ -229,31 +229,43 @@ namespace _13_01
         //Cancellazione di un elemento dell'array
         static void F4()
         {
-            int max = 100;
-            int[] arr4 = RandomArray(max, 0, max);
-            Console.WriteLine("4) Cancellazione di un elemento dell'array\n\nvuoi cercare un numero?(scrivi (y)es per cercare, altro per no) ");
+            int lun = 20; //lunghezza array disponibile
+            int[] arr4 = RandomArray(lun+1, 0, 1); //lunghezza + 1 per l'errore in spostamento
+            Console.WriteLine("4) Cancellazione di un elemento dell'array\n\nvuoi cancellare un numero?(scrivi (y)es per cancellare, altro per no)");
+            Console.SetCursorPosition(0, 8);
+            for (int i = 0; i < lun; i++) Console.Write(arr4[i] + " | ");
+
             do
             {
-                max--;
+                lun--;
                 Console.SetCursorPosition(0, 3);
-                if (Console.ReadKey().KeyChar == 'y') Array4(arr4, max);
+                if (Console.ReadKey().KeyChar == 'y') Array4(arr4, lun);
                 else
                 {
                     Console.Write("\b \n");
                     Console.WriteLine("Fine funzione...");
                     break;
                 }
-                if (max == 0) Console.Write("\n l'array è vuoto\npremi per continuare");
-                else Console.Write("\nL'elemento non si trova nell'array\npremi per continuare");
-                Console.ReadKey();
-                for (int y = 3; y <= 6; y++)
+
+                if (lun == 0)
+                {
+                    Console.SetCursorPosition(0, 8);
+                    Console.Write(new string(' ', Console.WindowWidth));
+                    Console.WriteLine("\n l'array è vuoto\nFine funzione...");
+                    break;
+                }
+
+                for (int y = 3; y <= 8; y++)
                 {
                     Console.SetCursorPosition(0, y);
                     Console.Write(new string(' ', Console.WindowWidth));
                 }
+
+                Console.SetCursorPosition(0, 8);
+                for (int i = 0; i < lun; i++) Console.Write(arr4[i] + " | ");
             } while (true);
         }
-        static void Array4(int[] arr, int max)
+        static void Array4(int[] arr, int lun)
         {
             do
             {
@@ -261,13 +273,13 @@ namespace _13_01
                 int nsc; //numero scelto
 
                 Console.Write("\bnumero da cancellare: ");
-                while (!int.TryParse(Console.ReadLine(), out nsc) || nsc < 0 || nsc > max)
+                while (!int.TryParse(Console.ReadLine(), out nsc) || !(nsc >= 0 && nsc < 100))
                 {//bad input
                     Task.Delay(300).Wait();
                     Console.SetCursorPosition(22, 4);
                     Console.Write(new string(' ', Console.WindowWidth));
                     Console.SetCursorPosition(22, 4);
-                    Console.Write("numero intero tra 0 e 100");
+                    Console.Write("numero intero tra 0 e 99");
                     Console.SetCursorPosition(22, 3);
                     Console.Write(new string(' ', Console.WindowWidth));
                     Console.SetCursorPosition(22, 3);
@@ -275,8 +287,14 @@ namespace _13_01
                 }
                 Task.Delay(600).Wait();
 
-                for (int i = 0; i < max; i++) if (arr[i] == nsc) iar = arr[i];
-                for (int i = 0; i < max; i++) if (i >= iar) arr[i] = arr[i + 1];
+                //for (int i = 0; i <= lun; i++) if (arr[i] == nsc) iar = i;
+                //for (int i = 0; i < lun; i++) if (i >= iar) arr[i] = arr[i + 1];
+                for (int i = lun; i >= 0; i--) if (arr[i] == nsc)
+                    {
+                        iar = i;
+                        break; //quella più a destra
+                    }
+                for (int i = iar; i < lun; i++) arr[i] = arr[i + 1];
 
                 if (iar == 100)
                 {
