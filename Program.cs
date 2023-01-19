@@ -84,7 +84,8 @@ namespace _13_01
                 Console.Clear();
             } while (rpr);
         }
-        //stampa pre progamma
+
+        //stampa pre programma
         static void Start()
         {
             Console.BackgroundColor = ConsoleColor.Red;//setta il colore di sfondo
@@ -102,6 +103,7 @@ namespace _13_01
             Console.BackgroundColor = ConsoleColor.White;
             Console.Clear();
         }
+
         // Aggiungere in coda un elemento all'array (interi);
         static void F1()
         {
@@ -213,6 +215,7 @@ namespace _13_01
             }
             return -1;
         }
+
         //crea un array di interi random
         static int[] RandomArray(int lunghezza, int min, int max)
         {
@@ -227,6 +230,7 @@ namespace _13_01
             }
             return arr;
         }
+
         //Cancellazione di un elemento dell'array
         static void F4()
         {
@@ -306,6 +310,7 @@ namespace _13_01
                 else break;
             } while (true);
         }
+
         //Inserimento di un valore in una posizione dell'array
         static void F5()
         {
