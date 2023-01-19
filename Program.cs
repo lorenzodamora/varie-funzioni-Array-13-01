@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Schema;
@@ -230,13 +231,14 @@ namespace _13_01
         static void F4()
         {
             int lun = 20; //lunghezza array disponibile
-            int[] arr4 = RandomArray(lun+1, 0, 1); //lunghezza + 1 per l'errore in spostamento
+            int[] arr4 = RandomArray(lun + 1, 0, 99); //lunghezza + 1 per l'errore in spostamento
             Console.WriteLine("4) Cancellazione di un elemento dell'array\n\nvuoi cancellare un numero?(scrivi (y)es per cancellare, altro per no)");
-            Console.SetCursorPosition(0, 8);
-            for (int i = 0; i < lun; i++) Console.Write(arr4[i] + " | ");
 
             do
             {
+                Console.SetCursorPosition(0, 8);
+                for (int i = 0; i < lun; i++) Console.Write(arr4[i] + " | ");
+
                 lun--;
                 Console.SetCursorPosition(0, 3);
                 if (Console.ReadKey().KeyChar == 'y') Array4(arr4, lun);
@@ -260,9 +262,6 @@ namespace _13_01
                     Console.SetCursorPosition(0, y);
                     Console.Write(new string(' ', Console.WindowWidth));
                 }
-
-                Console.SetCursorPosition(0, 8);
-                for (int i = 0; i < lun; i++) Console.Write(arr4[i] + " | ");
             } while (true);
         }
         static void Array4(int[] arr, int lun)
@@ -298,7 +297,7 @@ namespace _13_01
 
                 if (iar == 100)
                 {
-                    Console.SetCursorPosition(22,4);
+                    Console.SetCursorPosition(22, 4);
                     Console.Write("il numero non è presente nell'array");
                     Console.SetCursorPosition(22, 3);
                     Console.Write(new string(' ', Console.WindowWidth));
@@ -307,9 +306,78 @@ namespace _13_01
                 else break;
             } while (true);
         }
+        //Inserimento di un valore in una posizione dell'array
         static void F5()
         {
+            int lum = 20; //lunghezza massima array
+            int[] arr5 = new int[lum + 1]; //serve +1?
+            int lun = 0; //lunghezza array usato
+            Console.WriteLine("5) Inserimento di un valore in una posizione dell'array.\nInserendo un elemento con array pieno(20) il valore in fondo verrà eliminato" +
+                "\n\nvuoi aggiungere un numero ? (scrivi(y)es per aggiungere, altro per no)");
+            do
+            {
+                Console.SetCursorPosition(0, 8);
+                for (int i = 0; i < lun; i++) Console.Write(arr5[i] + " | ");
 
+                if (lun != lum) lun++;
+                Console.SetCursorPosition(0, 4);
+                if (Console.ReadKey().KeyChar == 'y') Array5(arr5, lun, lum);
+                else
+                {
+                    Console.Write("\b \n");
+                    Console.WriteLine("Fine funzione...");
+                    break;
+                }
+
+                Console.SetCursorPosition(0, 9);
+                if (lun == lum) Console.Write("L'array è pieno");
+
+                for (int y = 4; y <= 8; y++)
+                {
+                    Console.SetCursorPosition(0, y);
+                    Console.Write(new string(' ', Console.WindowWidth));
+                }
+
+            } while (true);
+        }
+        static void Array5(int[] arr, int lun, int lum)
+        {
+            int isc; //indice scelto
+            int nsc; //numero scelto
+
+            Console.Write("\bposizione in cui scrivere il numero: ");
+            while (!int.TryParse(Console.ReadLine(), out isc) || !(isc >= 0 && isc < lun))
+            {//bad input
+                Task.Delay(300).Wait();
+                Console.SetCursorPosition(37, 5);
+                Console.Write(new string(' ', Console.WindowWidth));
+                Console.SetCursorPosition(37, 5);
+                Console.Write($"numero intero tra 0 e {lun - 1}");
+                Console.SetCursorPosition(37, 4);
+                Console.Write(new string(' ', Console.WindowWidth));
+                Console.SetCursorPosition(37, 4);
+            }
+            Task.Delay(600).Wait();
+            Console.SetCursorPosition(0, 5);
+            Console.Write(new string(' ', Console.WindowWidth));
+            Console.SetCursorPosition(0, 5);
+
+            Console.Write("numero da inserire: ");
+            while (!int.TryParse(Console.ReadLine(), out nsc) || !(nsc >= 0 && nsc < 100))
+            {//bad input
+                Task.Delay(300).Wait();
+                Console.SetCursorPosition(20, 6);
+                Console.Write(new string(' ', Console.WindowWidth));
+                Console.SetCursorPosition(20, 6);
+                Console.Write("numero intero tra 0 e 99");
+                Console.SetCursorPosition(20, 5);
+                Console.Write(new string(' ', Console.WindowWidth));
+                Console.SetCursorPosition(20, 5);
+            }
+            Task.Delay(600).Wait();
+
+            for (int i = lum-1; i >= isc; i--) arr[i + 1] = arr[i];
+            arr[isc] = nsc;
         }
     }
 }
