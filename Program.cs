@@ -5,7 +5,7 @@ namespace _13_01
 {
     internal class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             Start();
             bool rpr; //ripeti programma
@@ -73,17 +73,17 @@ namespace _13_01
 
                     case 6:
                         Console.Clear();
-                        F3();
+                        F6();
                         break;
 
                     case 7:
                         Console.Clear();
-                        F4();
+                        //F7();
                         break;
 
                     case 8:
                         Console.Clear();
-                        F5();
+                        //F8();
                         break;
 
                     default:
@@ -403,16 +403,11 @@ namespace _13_01
         static void F6()
         {
             int[] arr6 = new int[20];
-            int lun = 0; //lunghezza array usato
             Console.WriteLine("6) Aggiungere all'array numeri random compresi tra valori inseriti\n\nvuoi creare un nuovo array? (scrivi(y)es per aggiungere, altro per no)");
             do
             {
-
-                Console.SetCursorPosition(0, 8);
-                for (int i = 0; i < lun; i++) Console.Write(arr6[i] + " | ");
-
                 Console.SetCursorPosition(0, 3);
-                if (Console.ReadKey().KeyChar == 'y') Array6(arr6, lun);
+                if (Console.ReadKey().KeyChar == 'y') arr6 = Array6(arr6, 20);
                 else
                 {
                     Console.Write("\b \n");
@@ -420,67 +415,79 @@ namespace _13_01
                     break;
                 }
 
-                for (int y = 3; y <= 8; y++)
+                for (int y = 3; y <= 6; y++)
                 {
                     Console.SetCursorPosition(0, y);
                     Console.Write(new string(' ', Console.WindowWidth));
                 }
+
+                Console.SetCursorPosition(0, 6);
+                for (int i = 0; i < 20; i++) Console.Write(arr6[i] + " | ");
             } while (true);
         }
-
-        static void Array6(int[] arr, int lun)
+        static int[] Array6(int[] arr, int lun)
         {
-            Random rnd = new Random();
             int min, max;
 
             Console.Write("\binserisci minimo e massimo: ");
             while (!int.TryParse(Console.ReadLine(), out min))
             {//bad input
-                Console.SetCursorPosition(21, 5);
-                Console.Write("numero decimale");
-                Console.SetCursorPosition(21, 4);
+                Console.SetCursorPosition(28, 4);
+                Console.Write("numero intero");
+                Console.SetCursorPosition(28, 3);
                 Console.Write(new string(' ', Console.WindowWidth));
-                Console.SetCursorPosition(21, 4);
+                Console.SetCursorPosition(28, 3);
             }
-            //get left per non cancellare il min a schermo,
+
+            int lef = min.ToString().Length + 28;
+            Console.SetCursorPosition(lef, 3);
             Console.Write(" | ");
-            while (!int.TryParse(Console.ReadLine(), out min))
+            lef = Console.CursorLeft;
+
+            while (!int.TryParse(Console.ReadLine(), out max))
             {//bad input
-                Console.SetCursorPosition(21, 5);
-                Console.Write("numero decimale");
-                Console.SetCursorPosition(21, 4);
+                Console.SetCursorPosition(lef, 4);
+                Console.Write("numero intero");
+                Console.SetCursorPosition(lef, 3);
                 Console.Write(new string(' ', Console.WindowWidth));
-                Console.SetCursorPosition(21, 4);
+                Console.SetCursorPosition(lef, 3);
             }
-            //if max e min da invertire?
+
+            if (max < min) (max, min) = (min, max); //si chiama tupla, scambia i valori
+
+            arr = RandomArray(20,min,max);//max + 1 già presente
+            SortArray(arr, 0, 19);
+
+            return arr;//serve o non modifica arr6
         }
 
-        static int[] SortArray(int[] array, int leftIndex, int rightIndex)
+        //quicksort
+        static void SortArray(int[] arrs, int lei, int rii) //left index e right index
         {
-            var i = leftIndex;
-            var j = rightIndex;
-            var pivot = array[leftIndex];
+            var i = lei;
+            var j = rii;
+            var pivot = arrs[lei];
             while (i <= j)
             {
-                while (array[i] < pivot) i++;
+                while (arrs[i] < pivot) i++;
 
-                while (array[j] > pivot) j--;
+                while (arrs[j] > pivot) j--;
 
                 if (i <= j)
                 {
-                    int temp = array[i];
+                    /* int temp = array[i];
                     array[i] = array[j];
-                    array[j] = temp;
+                    array[j] = temp; */
+                    (arrs[j], arrs[i]) = (arrs[i], arrs[j]); //si chiama tupla
                     i++;
                     j--;
                 }
             }
 
-            if (leftIndex < j)
-                SortArray(array, leftIndex, j);
-            if (i < rightIndex)
-                SortArray(array, i, rightIndex);
-            return array;
+            if (lei < j)
+                SortArray(arrs, lei, j);
+            if (i < rii)
+                SortArray(arrs, i, rii);
         }
     }
 }
