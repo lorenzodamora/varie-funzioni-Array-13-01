@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Runtime.ConstrainedExecution;
-using System.Text;
 using System.Threading.Tasks;
-using System.Xml.Schema;
 
 namespace _13_01
 {
@@ -19,10 +13,13 @@ namespace _13_01
             {
                 rpr = true;
                 Console.WriteLine("1) Aggiungere in coda un elemento all'array (decimali)");
-                Console.WriteLine("2) restituisce la stringa dell' HTML di un array scritto da te");
+                Console.WriteLine("2) restituisce la stringa dell' HTML di un array inserito");
                 Console.WriteLine("3) Ricerca un numero all'interno di un'array, da la posizione se lo trova, o scrive se non lo trova");
                 Console.WriteLine("4) Cancellazione di un elemento dell'array");
                 Console.WriteLine("5) Inserimento di un valore in una posizione dell'array");
+                Console.WriteLine("6) Aggiungere all'array numeri random compresi tra valori inseriti");
+                Console.WriteLine("7) Troncamento di un array, data una dimensione inseriti");
+                Console.WriteLine("8) Ordinare un array inserimento per inserimento");
                 Console.WriteLine("0) Termina programma ");
 
                 Console.Write("\nSeleziona una delle precedenti funzioni scrivendo il numero qua: ");
@@ -32,11 +29,11 @@ namespace _13_01
                 //Task.Delay(350).Wait();
                 //while (!int.TryParse(aut.ToString(), out fun) || !(fun >= 0 && fun <= 5))
 
-                while (!int.TryParse(Console.ReadKey().KeyChar.ToString(), out fun) || !(fun >= 0 && fun <= 5))
+                while (!int.TryParse(Console.ReadKey().KeyChar.ToString(), out fun) || !(fun >= 0 && fun <= 8))
                 {//bad input
                     Task.Delay(300).Wait();
                     Console.SetCursorPosition(65, 8);
-                    Console.Write("numero intero tra 0 e 5");
+                    Console.Write("numero intero tra 0 e 8");
                     Console.SetCursorPosition(65, 7);
                     Console.Write(" ");
                     Console.SetCursorPosition(65, 7);
@@ -47,11 +44,7 @@ namespace _13_01
 
                 switch (fun)
                 {
-                    case 0:
-                        Console.Clear();
-                        Console.WriteLine("Fine programma...");
-                        rpr = false;
-                        break;
+
 
                     case 1:
                         Console.Clear();
@@ -77,6 +70,29 @@ namespace _13_01
                         Console.Clear();
                         F5();
                         break;
+
+                    case 6:
+                        Console.Clear();
+                        F3();
+                        break;
+
+                    case 7:
+                        Console.Clear();
+                        F4();
+                        break;
+
+                    case 8:
+                        Console.Clear();
+                        F5();
+                        break;
+
+                    default:
+                    case 0:
+                        Console.Clear();
+                        Console.WriteLine("Fine programma...");
+                        rpr = false;
+                        break;
+
                 }
 
                 Console.WriteLine("press any key to continue");
@@ -221,12 +237,10 @@ namespace _13_01
         {
             Random R = new Random();
             int[] arr = new int[lunghezza];
-            int p = 0; //posizione
-            foreach (int i in arr)
+            for (int i = 0; i < lunghezza; i++)
             {
-                arr[p] = R.Next(min, max + 1);
-                p++;
-                //Task.Delay(1).Wait();
+                arr[i] = R.Next(min, max + 1);
+                Task.Delay(1).Wait(); //debug
             }
             return arr;
         }
@@ -381,8 +395,92 @@ namespace _13_01
             }
             Task.Delay(600).Wait();
 
-            for (int i = lum-1; i >= isc; i--) arr[i + 1] = arr[i];
+            for (int i = lum - 1; i >= isc; i--) arr[i + 1] = arr[i];
             arr[isc] = nsc;
+        }
+
+        //Aggiungere all'array numeri random compresi tra valori inseriti
+        static void F6()
+        {
+            int[] arr6 = new int[20];
+            int lun = 0; //lunghezza array usato
+            Console.WriteLine("6) Aggiungere all'array numeri random compresi tra valori inseriti\n\nvuoi creare un nuovo array? (scrivi(y)es per aggiungere, altro per no)");
+            do
+            {
+
+                Console.SetCursorPosition(0, 8);
+                for (int i = 0; i < lun; i++) Console.Write(arr6[i] + " | ");
+
+                Console.SetCursorPosition(0, 3);
+                if (Console.ReadKey().KeyChar == 'y') Array6(arr6, lun);
+                else
+                {
+                    Console.Write("\b \n");
+                    Console.WriteLine("Fine funzione...");
+                    break;
+                }
+
+                for (int y = 3; y <= 8; y++)
+                {
+                    Console.SetCursorPosition(0, y);
+                    Console.Write(new string(' ', Console.WindowWidth));
+                }
+            } while (true);
+        }
+
+        static void Array6(int[] arr, int lun)
+        {
+            Random rnd = new Random();
+            int min, max;
+
+            Console.Write("\binserisci minimo e massimo: ");
+            while (!int.TryParse(Console.ReadLine(), out min))
+            {//bad input
+                Console.SetCursorPosition(21, 5);
+                Console.Write("numero decimale");
+                Console.SetCursorPosition(21, 4);
+                Console.Write(new string(' ', Console.WindowWidth));
+                Console.SetCursorPosition(21, 4);
+            }
+            //get left per non cancellare il min a schermo,
+            Console.Write(" | ");
+            while (!int.TryParse(Console.ReadLine(), out min))
+            {//bad input
+                Console.SetCursorPosition(21, 5);
+                Console.Write("numero decimale");
+                Console.SetCursorPosition(21, 4);
+                Console.Write(new string(' ', Console.WindowWidth));
+                Console.SetCursorPosition(21, 4);
+            }
+            //if max e min da invertire?
+        }
+
+        static int[] SortArray(int[] array, int leftIndex, int rightIndex)
+        {
+            var i = leftIndex;
+            var j = rightIndex;
+            var pivot = array[leftIndex];
+            while (i <= j)
+            {
+                while (array[i] < pivot) i++;
+
+                while (array[j] > pivot) j--;
+
+                if (i <= j)
+                {
+                    int temp = array[i];
+                    array[i] = array[j];
+                    array[j] = temp;
+                    i++;
+                    j--;
+                }
+            }
+
+            if (leftIndex < j)
+                SortArray(array, leftIndex, j);
+            if (i < rightIndex)
+                SortArray(array, i, rightIndex);
+            return array;
         }
     }
 }
