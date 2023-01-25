@@ -17,7 +17,7 @@ namespace _13_01
                 Console.WriteLine("3) Ricerca un numero all'interno di un'array, da la posizione se lo trova, o scrive se non lo trova");
                 Console.WriteLine("4) Cancellazione di un elemento dell'array");
                 Console.WriteLine("5) Inserimento di un valore in una posizione dell'array");
-                Console.WriteLine("6) Aggiungere all'array numeri random compresi tra valori inseriti");
+                Console.WriteLine("6) Aggiungere all'array N numeri random compresi tra valori inseriti");
                 Console.WriteLine("7) Troncamento di un array, data una dimensione inseriti");
                 Console.WriteLine("8) Ordinare un array inserimento per inserimento");
                 Console.WriteLine("0) Termina programma ");
@@ -399,15 +399,15 @@ namespace _13_01
             arr[isc] = nsc;
         }
 
-        //Aggiungere all'array numeri random compresi tra valori inseriti
+        //Aggiungere all'array N numeri random compresi tra valori inseriti
         static void F6()
         {
-            int[] arr6 = new int[20];
-            Console.WriteLine("6) Aggiungere all'array numeri random compresi tra valori inseriti\n\nvuoi creare un nuovo array? (scrivi(y)es per aggiungere, altro per no)");
+            int[] arr6 = new int[30];
+            Console.WriteLine("6) Aggiungere all'array N numeri random compresi tra valori inseriti\n\nvuoi creare un nuovo array? (scrivi(y)es per aggiungere, altro per no) (i numeri andranno a cancellare dal fondo)");
             do
             {
                 Console.SetCursorPosition(0, 3);
-                if (Console.ReadKey().KeyChar == 'y') arr6 = Array6(arr6, 20);
+                if (Console.ReadKey().KeyChar == 'y') arr6 = Array6(arr6, 30);
                 else
                 {
                     Console.Write("\b \n");
@@ -422,42 +422,62 @@ namespace _13_01
                 }
 
                 Console.SetCursorPosition(0, 6);
-                for (int i = 0; i < 20; i++) Console.Write(arr6[i] + " | ");
+                for (int i = 0; i < 30; i++) Console.Write(arr6[i] + " | ");
             } while (true);
         }
         static int[] Array6(int[] arr, int lun)
         {
-            int min, max;
+            //inverti i valori per andare a modificare il fondo
+            for (int i = 0; i < lun / 2; i++) (arr[i], arr[lun - 1 - i]) = (arr[lun - 1 - i], arr[i]); //tupla
 
-            Console.Write("\binserisci minimo e massimo: ");
+            int min, max, num;
+
+            Console.Write("\bquanti numeri inserire?: ");
+            while (!int.TryParse(Console.ReadLine(), out num) || num < 0 || num > 30)
+            {//bad input
+                Console.SetCursorPosition(25, 4);
+                Console.Write("numero intero tra 0 e 30");
+                Console.SetCursorPosition(25, 3);
+                Console.Write(new string(' ', Console.WindowWidth));
+                Console.SetCursorPosition(25, 3);
+            }
+            Console.SetCursorPosition(25, 4);
+            Console.Write(new string(' ', Console.WindowWidth));
+            Console.SetCursorPosition(0,4);
+
+            Console.Write("inserisci minimo e massimo: ");
             while (!int.TryParse(Console.ReadLine(), out min))
             {//bad input
-                Console.SetCursorPosition(28, 4);
+                Console.SetCursorPosition(28, 5);
                 Console.Write("numero intero");
-                Console.SetCursorPosition(28, 3);
+                Console.SetCursorPosition(28, 4);
                 Console.Write(new string(' ', Console.WindowWidth));
-                Console.SetCursorPosition(28, 3);
+                Console.SetCursorPosition(28, 4);
             }
 
             int lef = min.ToString().Length + 28;
-            Console.SetCursorPosition(lef, 3);
+            Console.SetCursorPosition(lef, 4);
             Console.Write(" | ");
             lef = Console.CursorLeft;
 
             while (!int.TryParse(Console.ReadLine(), out max))
             {//bad input
-                Console.SetCursorPosition(lef, 4);
+                Console.SetCursorPosition(lef, 5);
                 Console.Write("numero intero");
-                Console.SetCursorPosition(lef, 3);
+                Console.SetCursorPosition(lef, 4);
                 Console.Write(new string(' ', Console.WindowWidth));
-                Console.SetCursorPosition(lef, 3);
+                Console.SetCursorPosition(lef, 4);
             }
 
             if (max < min) (max, min) = (min, max); //si chiama tupla, scambia i valori
 
-            arr = RandomArray(20,min,max);//max + 1 già presente
-            SortArray(arr, 0, 19);
+            int[] arrnum = RandomArray(num, min, max);//max + 1 già presente
+            for (int i = 0; i < num;i++) arr[i]= arrnum[i]; 
 
+            SortArray(arr, 0, lun-1);
+            //reverse order
+            for (int i = 0; i < lun/2; i++) (arr[i], arr[lun - 1 - i]) = (arr[lun - 1 -i], arr[i]); //tupla
+            
             return arr;//serve o non modifica arr6
         }
 
