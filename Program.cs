@@ -18,7 +18,7 @@ namespace _13_01
                 Console.WriteLine("4) Cancellazione di un elemento dell'array");
                 Console.WriteLine("5) Inserimento di un valore in una posizione dell'array");
                 Console.WriteLine("6) Aggiungere all'array N numeri random compresi tra valori inseriti");
-                Console.WriteLine("7) Troncamento di un array, data una dimensione inseriti");
+                Console.WriteLine("7) Troncamento di un array, data una dimensione inserita");
                 Console.WriteLine("8) Ordinare un array inserimento per inserimento");
                 Console.WriteLine("0) Termina programma ");
 
@@ -32,11 +32,11 @@ namespace _13_01
                 while (!int.TryParse(Console.ReadKey().KeyChar.ToString(), out fun) || !(fun >= 0 && fun <= 8))
                 {//bad input
                     Task.Delay(300).Wait();
-                    Console.SetCursorPosition(65, 8);
+                    Console.SetCursorPosition(65, 11);
                     Console.Write("numero intero tra 0 e 8");
-                    Console.SetCursorPosition(65, 7);
+                    Console.SetCursorPosition(65, 10);
                     Console.Write(" ");
-                    Console.SetCursorPosition(65, 7);
+                    Console.SetCursorPosition(65, 10);
                     //aut = Console.ReadKey().KeyChar;
                     //Task.Delay(350).Wait();
                 }
@@ -78,7 +78,7 @@ namespace _13_01
 
                     case 7:
                         Console.Clear();
-                        //F7();
+                        F7();
                         break;
 
                     case 8:
@@ -403,7 +403,7 @@ namespace _13_01
         static void F6()
         {
             int[] arr6 = new int[30];
-            Console.WriteLine("6) Aggiungere all'array N numeri random compresi tra valori inseriti\n\nvuoi creare un nuovo array? (scrivi(y)es per aggiungere, altro per no) (i numeri andranno a cancellare dal fondo)");
+            Console.WriteLine("6) Aggiungere all'array N numeri random compresi tra valori inseriti\n\nvuoi aggiungere valori? (scrivi(y)es per aggiungere, altro per no) (i numeri andranno a cancellare dal fondo)");
             do
             {
                 Console.SetCursorPosition(0, 3);
@@ -443,7 +443,7 @@ namespace _13_01
             }
             Console.SetCursorPosition(25, 4);
             Console.Write(new string(' ', Console.WindowWidth));
-            Console.SetCursorPosition(0,4);
+            Console.SetCursorPosition(0, 4);
 
             Console.Write("inserisci minimo e massimo: ");
             while (!int.TryParse(Console.ReadLine(), out min))
@@ -472,12 +472,12 @@ namespace _13_01
             if (max < min) (max, min) = (min, max); //si chiama tupla, scambia i valori
 
             int[] arrnum = RandomArray(num, min, max);//max + 1 già presente
-            for (int i = 0; i < num;i++) arr[i]= arrnum[i]; 
+            for (int i = 0; i < num; i++) arr[i] = arrnum[i];
 
-            SortArray(arr, 0, lun-1);
-            //reverse order
-            for (int i = 0; i < lun/2; i++) (arr[i], arr[lun - 1 - i]) = (arr[lun - 1 -i], arr[i]); //tupla
-            
+            SortArray(arr, 0, lun - 1);
+            //reverse order per la visualizzazione
+            for (int i = 0; i < lun / 2; i++) (arr[i], arr[lun - 1 - i]) = (arr[lun - 1 - i], arr[i]); //tupla
+
             return arr;//serve o non modifica arr6
         }
 
@@ -508,6 +508,71 @@ namespace _13_01
                 SortArray(arrs, lei, j);
             if (i < rii)
                 SortArray(arrs, i, rii);
+        }
+
+        //7) Troncamento di un array, data una dimensione inserita
+        static void F7()
+        {
+            int cou = 30; //counter valori disponibili
+            //int[] arr7 = RandomArray(30, 0, 99);
+            int[] arr7 = new int[30];
+            for(int i = 0; i < arr7.Length; i++) arr7[i] = i;
+            Console.WriteLine("7) Troncamento di un array, data una dimensione inserita\n\nvuoi troncare l'array? (scrivi(y)es per troncare, altro per no)");
+            do
+            {
+                Console.SetCursorPosition(0, 6);
+                for (int i = 0; i < cou; i++) Console.Write(arr7[i] + " | ");
+
+                Console.SetCursorPosition(0, 3);
+                if (Console.ReadKey().KeyChar == 'y' && cou !=0) cou -= Array7(arr7, cou);
+                else
+                {
+                    Console.Write("\b \n");
+                    Console.WriteLine("Fine funzione...");
+                    break;
+                }
+
+                for (int y = 3; y <= 7; y++)
+                {
+                    Console.SetCursorPosition(0, y);
+                    Console.Write(new string(' ', Console.WindowWidth));
+                }
+                Console.SetCursorPosition(0, 3);
+                if (cou == 0) Console.WriteLine("array vuoto");
+            } while (true);
+        }
+        static int Array7(int[] arr, int lun)
+        {
+            int pos, poe; //posizione start end
+            Console.Write("\bScrivi da quale posizione a quale posizione troncare: ");//54
+            while (!int.TryParse(Console.ReadLine(), out pos) || pos < 0 || pos > lun-1)
+            {//bad input
+                Console.SetCursorPosition(54, 4);
+                Console.Write($"numero intero tra 0 e {lun - 1}");
+                Console.SetCursorPosition(54, 3);
+                Console.Write(new string(' ', Console.WindowWidth));
+                Console.SetCursorPosition(54, 3);
+            }
+
+            int lef = pos.ToString().Length + 54;
+            Console.SetCursorPosition(lef, 3);
+            Console.Write(" | ");
+            lef = Console.CursorLeft;
+
+            while (!int.TryParse(Console.ReadLine(), out poe) || poe < 0 || poe > lun-1)
+            {//bad input
+                Console.SetCursorPosition(lef, 4);
+                Console.Write($"numero intero tra 0 e {lun-1}");
+                Console.SetCursorPosition(lef, 3);
+                Console.Write(new string(' ', Console.WindowWidth));
+                Console.SetCursorPosition(lef, 3);
+            }
+
+            if (poe < pos) (poe, pos) = (pos, poe); //tupla, scambia i valori
+
+            for (int i = 0; i < 29 - poe; i++) arr[pos + i] = arr[poe + 1 + i];
+
+            return poe - pos + 1;
         }
     }
 }
